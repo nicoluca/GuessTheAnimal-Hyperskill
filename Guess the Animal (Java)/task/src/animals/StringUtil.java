@@ -17,6 +17,15 @@ public class StringUtil {
             return "Good evening!";
     }
 
+    public static String getWithoutArticle(String word) {
+        // Example: "a dog" -> "dog", "the dog" -> "dog", "a nice dog" -> "nice dog"
+        String[] parts = word.split(" ");
+        if (parts[0].equalsIgnoreCase("a") || parts[0].equalsIgnoreCase("an") || parts[0].equalsIgnoreCase("the"))
+            return Arrays.stream(parts).skip(1).reduce((a, b) -> a + " " + b).get();
+        else
+            return word;
+    }
+
     public static String formatAnimalInput(String word) {
         // Example: "a dog" -> "a dog", "the dog" -> "a dog", "dog" -> "a dog"
         String[] parts = word.split(" ");
@@ -70,6 +79,7 @@ public class StringUtil {
     }
 
     private static String trimString(String string) {
+        // Example: "  Yes!  " -> "yes"
         // Trim leading and trailing spaces
         string = string.replaceAll("^[\\s]+|[\\s]+$", "");
         // Trim last char if dot or exclamation mark
@@ -121,5 +131,25 @@ public class StringUtil {
         // Needs to start with 'It can/has/is'
         String regex = "^It\\s(can|has|is)\\s.*\\.$";
         return sentence.matches(regex);
+    }
+
+    public static TypeOfFact getTypeOfFact(String distinguishingFact) {
+        String[] parts = distinguishingFact.split(" ");
+
+        if (parts[1].equals("can"))
+            return TypeOfFact.CAN;
+        else if (parts[1].equals("has"))
+            return TypeOfFact.HAS;
+        else if (parts[1].equals("is"))
+            return TypeOfFact.IS;
+        else
+            throw new IllegalArgumentException("Not a valid sentence for providing a attribute type: " + distinguishingFact);
+    }
+
+    public static String formatFact(String fact) {
+        // Example: "It can swim." -> "swim", "It has a tail." -> "a tail"
+        String[] parts = fact.split(" ");
+        String result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
+        return result.replaceAll("\\.$", "");
     }
 }

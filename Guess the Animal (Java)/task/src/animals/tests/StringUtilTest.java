@@ -1,12 +1,21 @@
 package animals.tests;
 
 import animals.StringUtil;
+import animals.TypeOfFact;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class StringUtilTest {
     // Testing in this package, as Hyperskill messes with the folder structure.
+
+    @Test
+    public void testGetWithoutArticle() {
+        assertEquals("cat", StringUtil.getWithoutArticle("a cat"));
+        assertEquals("cat", StringUtil.getWithoutArticle("an cat"));
+        assertEquals("cat", StringUtil.getWithoutArticle("the cat"));
+        assertEquals("nice cat", StringUtil.getWithoutArticle("nice cat"));
+    }
 
     @Test
     public void testGetArticeBasedOnFirstLetter() {
@@ -50,5 +59,20 @@ public class StringUtilTest {
 
         assertFalse(StringUtil.sentenceIsFact("It is a bird"));
         assertFalse(StringUtil.sentenceIsFact("It knows English."));
+    }
+
+    @Test
+    public void testGetTypeOfFact() {
+        assertEquals(TypeOfFact.CAN, StringUtil.getTypeOfFact("It can fly."));
+        assertEquals(TypeOfFact.HAS, StringUtil.getTypeOfFact("It has wings."));
+        assertEquals(TypeOfFact.IS, StringUtil.getTypeOfFact("It is a bird."));
+    }
+
+    @Test
+    public void testFormatFact() {
+        assertEquals("fly", StringUtil.formatFact("It can fly"));
+        assertEquals("wings", StringUtil.formatFact("It has wings"));
+        assertEquals("a bird", StringUtil.formatFact("It is a bird"));
+        assertEquals("a shy animal", StringUtil.formatFact("It is a shy animal."));
     }
 }
