@@ -129,18 +129,18 @@ public class StringUtil {
 
     public static boolean sentenceIsFact(String sentence) {
         // Needs to start with 'It can/has/is'
-        String regex = "^It\\s(can|has|is)\\s.*\\.$";
+        String regex = "(?i)^It\\s(can|has|is)\\s.*$";
         return sentence.matches(regex);
     }
 
     public static TypeOfFact getTypeOfFact(String distinguishingFact) {
         String[] parts = distinguishingFact.split(" ");
 
-        if (parts[1].equals("can"))
+        if (parts[1].equalsIgnoreCase("can"))
             return TypeOfFact.CAN;
-        else if (parts[1].equals("has"))
+        else if (parts[1].equalsIgnoreCase("has"))
             return TypeOfFact.HAS;
-        else if (parts[1].equals("is"))
+        else if (parts[1].equalsIgnoreCase("is"))
             return TypeOfFact.IS;
         else
             throw new IllegalArgumentException("Not a valid sentence for providing a attribute type: " + distinguishingFact);
@@ -148,8 +148,10 @@ public class StringUtil {
 
     public static String formatFact(String fact) {
         // Example: "It can swim." -> "swim", "It has a tail." -> "a tail"
+        fact = fact.toLowerCase();
         String[] parts = fact.split(" ");
         String result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
-        return result.replaceAll("\\.$", "");
+        // Remove period or question mark at the end
+        return result.replaceAll("[\\.|\\?]$", "");
     }
 }

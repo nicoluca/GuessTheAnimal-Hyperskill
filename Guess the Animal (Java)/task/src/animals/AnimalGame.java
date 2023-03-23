@@ -4,7 +4,6 @@ public class AnimalGame {
     private String animal1;
     private String animal2;
     private AnimalFact distinguishingFact;
-
     private String animalForWhichfactApplies;
 
     public AnimalGame() {
@@ -19,22 +18,32 @@ public class AnimalGame {
         this.setDistinguishingFact();
         this.setAnimalForWhichFactApplies();
         this.printFacts();
+        this.printQuestion();
     }
 
 
-    private void setDistinguishingFact() {
-        String distinguishingFact = CLIUtil.getString("Specify a question that distinguishes " +
-                this.animal1 + " from " + this.animal2 + ".\n" +
-                "The sentence should be of the format: 'It can/has/is ...'.");
 
-        if (!StringUtil.sentenceIsFact(distinguishingFact))
-            setDistinguishingFact();
+    private void setDistinguishingFact() {
+        String prompt = "Specify a fact that distinguishes " +
+                this.animal1 + " from " + this.animal2 + ".\n" +
+                "The sentence should be of the format: 'It can/has/is ...'.";
+        String distinguishingFact = CLIUtil.getString(prompt);
+
+        while (!StringUtil.sentenceIsFact(distinguishingFact)) {
+            System.out.println("The examples of a statement:\n" +
+            "- It can fly\n" +
+            "- It has horn\n" +
+            "- It is a mammal");
+            distinguishingFact = CLIUtil.getString(prompt);
+        }
 
         this.distinguishingFact = AnimalFact.generateFromString(distinguishingFact);
     }
 
+
+
     private void setAnimalForWhichFactApplies() {
-        boolean trueForAnimal2 = CLIUtil.isYesAnswer("Is it true for " + this.animal2 + "?");
+        boolean trueForAnimal2 = CLIUtil.isYesAnswer("Is it correct for " + this.animal2 + "?");
 
         if (trueForAnimal2)
             this.animalForWhichfactApplies = this.animal2;
@@ -51,5 +60,11 @@ public class AnimalGame {
             System.out.println("The " + StringUtil.getWithoutArticle(this.animal1) + " " + this.distinguishingFact.getStringForFalse());
             System.out.println("The " + StringUtil.getWithoutArticle(this.animal2) + " " + this.distinguishingFact.getStringForTrue());
         }
+    }
+
+
+    private void printQuestion() {
+        System.out.println("I can distinguish these animals by asking the question:");
+        System.out.println("- " + this.distinguishingFact.getDistinguishingQuestion());
     }
 }

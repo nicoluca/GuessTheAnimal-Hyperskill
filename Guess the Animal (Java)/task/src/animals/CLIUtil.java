@@ -13,6 +13,11 @@ public class CLIUtil {
 
     public static boolean isYesAnswer(String prompt) {
         System.out.println(prompt);
-        return StringUtil.isPositiveAnswer(Main.scanner.nextLine());
+        String answer = Main.scanner.nextLine();
+        while (!StringUtil.isPositiveAnswer(answer) && !StringUtil.isNegativeAnswer(answer)) {
+            System.out.println(StringUtil.getClarification());
+            answer = Main.scanner.nextLine();
+        }
+        return StringUtil.isPositiveAnswer(answer);
     }
 }

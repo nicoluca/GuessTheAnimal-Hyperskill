@@ -34,9 +34,22 @@ public class AnimalFact {
             case CAN:
                 return "can't " + this.fact + ".";
             case HAS:
-                return "doesn't have " + this.fact; // Without period, messy requirement.
+                return "doesn't have " + this.fact + ".";
             case IS:
-                return "isn't " + this.fact; // Without period, messy requirement.
+                return "isn't " + this.fact + ".";
+            default:
+                throw new IllegalStateException("Unexpected value: " + this.typeOfFact);
+        }
+    }
+
+    public String getDistinguishingQuestion() {
+        switch (this.typeOfFact) {
+            case CAN:
+                return "Can it " + this.fact + "?";
+            case HAS:
+                return "Does it have " + this.fact + "?";
+            case IS:
+                return "Is it " + this.fact + "?";
             default:
                 throw new IllegalStateException("Unexpected value: " + this.typeOfFact);
         }
