@@ -7,15 +7,14 @@ import java.util.Random;
 
 public class StringUtil {
     private static final Random random = new Random();
-    public static String getGreetingBasedOnTime() {
+    public static String getGreetingStringBasedOnTime() {
         int hour = LocalTime.now().getHour();
-        if (hour >= 5 && hour < 12) {
+        if (hour >= 5 && hour < 12)
             return "Good morning!";
-        } else if (hour >= 12 && hour < 18) {
+        else if (hour >= 12 && hour < 18)
             return "Good afternoon!";
-        } else {
+        else
             return "Good evening!";
-        }
     }
 
     public static String formatAnimalInput(String word) {
@@ -38,11 +37,14 @@ public class StringUtil {
 
     public static String getArticleBasedonFirstLetter(String word) {
         char firstLetter = word.charAt(0);
-        if (firstLetter == 'a' || firstLetter == 'e' || firstLetter == 'i' || firstLetter == 'o' || firstLetter == 'u') {
+        if (firstLetter == 'a' ||
+                firstLetter == 'e' ||
+                firstLetter == 'i' ||
+                firstLetter == 'o' ||
+                firstLetter == 'u')
             return "an";
-        } else {
+        else
             return "a";
-        }
     }
 
     public static boolean isPositiveAnswer(String answer) {

@@ -53,6 +53,6 @@ public class Main {
     }
 
     private static void greetUser() {
-        System.out.println(StringUtil.getGreetingBasedOnTime());
+        System.out.println(StringUtil.getGreetingStringBasedOnTime());
     }
 }
