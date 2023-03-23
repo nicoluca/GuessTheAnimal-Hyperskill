@@ -18,6 +18,7 @@ public class StringUtil {
     }
 
     public static String formatAnimalInput(String word) {
+        // Example: "a dog" -> "a dog", "the dog" -> "a dog", "dog" -> "a dog"
         String[] parts = word.split(" ");
         String result;
 
@@ -112,5 +113,39 @@ public class StringUtil {
         );
 
         return goodbyes.get(random.nextInt(goodbyes.size()));
+    }
+
+    public static boolean sentenceIsFact(String sentence) {
+        // Needs to start with 'It can/has/is'
+        String regex = "^It\\s(can|has|is)\\s.*\\.$";
+        return sentence.matches(regex);
+    }
+
+    // Writing unit tests here as Hyperskill messes with the test folder structure
+    public static void main(String[] args) {
+        testPositiveAnswer("Yes", true);
+        testPositiveAnswer("Y", true);
+        testPositiveAnswer("No", false);
+        testPositiveAnswer("N", false);
+        testPositiveAnswer("y", true);
+
+        testNegativeAnswer("No", true);
+        testNegativeAnswer("N", true);
+        testNegativeAnswer("Yes", false);
+        testNegativeAnswer("Y", false);
+
+        assert sentenceIsFact("It can fly.") == true : "False for 'It can fly.', should be true.";
+        assert sentenceIsFact("It has wings.") == true : "False for 'It has wings.', should be true.";
+        assert sentenceIsFact("It is a bird.") == true : "False for 'It is a bird.', should be true.";
+        assert sentenceIsFact("It is a bird") == false : "True for 'It is a bird', should be false.";
+        assert sentenceIsFact("It knows English.") == false : "True for 'It knows English.', should be fals.";
+    }
+
+    private static void testPositiveAnswer(String answer, boolean positiveAnswer) {
+        assert isPositiveAnswer(answer) == positiveAnswer : !positiveAnswer + " for " + answer + ", should be " + positiveAnswer;
+    }
+
+    private static void testNegativeAnswer(String answer, boolean negativeAnswer) {
+        assert isNegativeAnswer(answer) == negativeAnswer : !negativeAnswer + " for " + answer + ", should be " + negativeAnswer;
     }
 }

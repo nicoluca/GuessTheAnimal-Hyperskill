@@ -1,22 +1,18 @@
 package animals;
 
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         greetUser();
-        startGame();
+        AnimalGame game = new AnimalGame();
+        game.start();
+        printGoodbye();
         scanner.close();
     }
 
-    private static void startGame() {
-        String animal = CLIUtil.getString("Enter an animal:");
-        askForAnimal(animal);
-        boolean answer = isAnswerYes();
-        printAnswer(answer);
-        printGoodbye();
-    }
 
     private static void printGoodbye() {
         System.out.println();
