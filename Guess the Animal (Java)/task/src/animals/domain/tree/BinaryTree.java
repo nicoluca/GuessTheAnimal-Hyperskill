@@ -8,34 +8,32 @@ import java.util.logging.Logger;
 public class BinaryTree {
     private final static Logger LOGGER = Logger.getLogger(AnimalGame.class.getName());
     private Node root;
-    private int size;
 
     public BinaryTree(Node root) {
         LOGGER.setLevel(Level.INFO);
         this.root = root;
-        this.size = 1;
     }
 
     public Node getRoot() {
         return this.root;
     }
 
-    public void setRoot(Node root) {
-        this.root = root;
-    }
 
-    public void replaceLeaf(Node leafToReplace, Node replacingNode) {
-        LOGGER.info("Replacing " + leafToReplace.getData().toString() + " with " + replacingNode.getData());
-        leafToReplace = replacingNode;
-        if (this.root.equals(leafToReplace))
+    public void replaceNode(Node nodeToReplace, Node replacingNode) {
+        if (nodeToReplace == null || replacingNode == null)
+            throw new IllegalArgumentException("Node to replace or replacing node is null");
+        if (nodeToReplace.getLeft() != null || nodeToReplace.getRight() != null)
+            LOGGER.warning("Replacing node has children");
+
+        if (nodeToReplace.getParent() == null) {
             LOGGER.info("Replacing root with " + replacingNode.getData().toString());
             this.root = replacingNode;
-
-        this.size += 2;
-
-    }
-
-    public int getSize() {
-        return size;
+        } else {
+            LOGGER.info("Replacing " + nodeToReplace.getData().toString() + " with " + replacingNode.getData().toString());
+            if (nodeToReplace.getParent().getLeft().equals(nodeToReplace))
+                nodeToReplace.getParent().setLeft(replacingNode);
+            else
+                nodeToReplace.getParent().setRight(replacingNode);
+        }
     }
 }

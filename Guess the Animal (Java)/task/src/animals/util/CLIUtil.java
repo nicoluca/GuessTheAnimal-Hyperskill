@@ -2,7 +2,6 @@ package animals.util;
 
 import animals.Main;
 import animals.domain.Constants;
-import animals.util.StringUtil;
 
 public class CLIUtil {
 

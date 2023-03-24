@@ -5,10 +5,8 @@ import animals.domain.TypeOfFact;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class StringUtil {
-    private static final Random random = new Random();
     public static String getGreetingStringBasedOnTime() {
         int hour = LocalTime.now().getHour();
         if (hour >= 5 && hour < 12)
@@ -85,7 +83,7 @@ public class StringUtil {
         // Trim leading and trailing spaces
         string = string.replaceAll("^[\\s]+|[\\s]+$", "");
         // Trim last char if dot or exclamation mark
-        string = string.replaceAll("[\\.!]$", "");
+        string = string.replaceAll("[.!]$", "");
         // Return lowercase
         return string.toLowerCase();
     }
@@ -132,6 +130,6 @@ public class StringUtil {
         String[] parts = fact.split(" ");
         String result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
         // Remove period or question mark at the end
-        return result.replaceAll("[\\.|\\?]$", "");
+        return result.replaceAll("[.|?]$", "");
     }
 }
