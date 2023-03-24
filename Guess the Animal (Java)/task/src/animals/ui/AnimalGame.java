@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 public class AnimalGame {
     private final static Logger LOGGER = Logger.getLogger(AnimalGame.class.getName());
     private BinaryTree tree;
-    private Node<QuestionInterface> currentAnimalNode;
+    private Node<QuestionInterface> currentNode;
+    private Node<QuestionInterface> previousNode;
 
     public AnimalGame() {
     }
@@ -27,48 +28,70 @@ public class AnimalGame {
         greet();
         
         Animal animal = new Animal(CLIUtil.getString());
-        this.currentAnimalNode = new Node<>(animal);
-        this.tree = new BinaryTree(this.currentAnimalNode);
+        this.currentNode = new Node<>(animal);
+        this.tree = new BinaryTree(this.currentNode);
 
         playGame();
     }
 
     private void playGame() {
+        LOGGER.info("Playing new game. Current tree size is " + this.tree.getSize());
+
         secondGreet();
         CLIUtil.getString(); // wait for user to press enter
-        Animal animal1 = (Animal) this.currentAnimalNode.getData();
-        boolean isCorrect = CLIUtil.isYesAnswer(animal1.getQuestion());
+        this.currentNode = this.tree.getRoot();
 
-        if (isCorrect)
-            System.out.println("I guessed the animal!");
-        else {
-            System.out.println(Constants.getNegativeResponse());
+        while (true) {
+            LOGGER.info("Current node is " + this.currentNode.getData().toString());
+            boolean isCorrect = CLIUtil.isYesAnswer(this.currentNode.getData().getQuestion());
 
-            Animal animal2 = new Animal(CLIUtil.getString());
-            AnimalFact distinguishingFact = getDistinguishingFact(animal1, animal2);
-            boolean trueForAnimal2 = CLIUtil.isYesAnswer(animal2.getFactQuestion());
-
-            Node<QuestionInterface> newDistinguishingFact = new Node<>(distinguishingFact);
-            Node<QuestionInterface> animal1Node = new Node<>(animal1);
-            Node<QuestionInterface> animal2Node = new Node<>(animal2);
-            newDistinguishingFact.setLeft(trueForAnimal2 ? animal1Node : animal2Node);
-            newDistinguishingFact.setRight(trueForAnimal2 ? animal2Node : animal1Node);
-            this.tree.replaceLeaf(this.currentAnimalNode, newDistinguishingFact);
-            this.currentAnimalNode = animal2Node;
-
-            FormatUtil.printNode(newDistinguishingFact);
+            if (this.currentNode.isLeaf() && isCorrect) {
+                System.out.println(Constants.correctGuess());
+                break;
+            } else if (this.currentNode.isLeaf() && !isCorrect) {
+                System.out.println(Constants.getNegativeResponse());
+                addToTree();
+                break;
+            } else if (isCorrect) {
+                this.previousNode = this.currentNode;
+                this.currentNode = this.currentNode.getRight();
+            } else {
+                this.previousNode = this.currentNode;
+                this.currentNode = this.currentNode.getLeft();
+            }
         }
-        
+
         wantToPlayAgain();
     }
 
-    private Animal getFirstAnimal(Node root) {
-        if (root.isLeaf())
-            return (Animal) root.getData();
-        else
-            return getFirstAnimal(root.getRight());
-    }
+    private void addToTree() {
+        if (!this.currentNode.isLeaf() || !(this.currentNode.getData() instanceof Animal))
+            throw new IllegalArgumentException("Node must be a leaf and an Animal.");
 
+        Animal animal1 = (Animal) this.currentNode.getData();
+        Animal animal2 = new Animal(CLIUtil.getString());
+        AnimalFact distinguishingFact = getDistinguishingFact(animal1, animal2);
+        boolean trueForAnimal2 = CLIUtil.isYesAnswer(animal2.getFactQuestion());
+
+        Node<QuestionInterface> newDistinguishingFact = new Node<>(distinguishingFact);
+        Node<QuestionInterface> animal1Node = new Node<>(animal1);
+        Node<QuestionInterface> animal2Node = new Node<>(animal2);
+        newDistinguishingFact.setLeft(trueForAnimal2 ? animal1Node : animal2Node);
+        newDistinguishingFact.setRight(trueForAnimal2 ? animal2Node : animal1Node);
+
+        if (this.currentNode.getParent() == null) {
+            LOGGER.info("Replacing root with " + newDistinguishingFact.getData().toString());
+            this.tree.setRoot(newDistinguishingFact);
+        } else {
+            LOGGER.info("Replacing " + this.currentNode.getData().toString() + " with " + newDistinguishingFact.getData().toString());
+            if (this.currentNode.getParent().getLeft().equals(this.currentNode))
+                this.currentNode.getParent().setLeft(newDistinguishingFact);
+            else
+                this.currentNode.getParent().setRight(newDistinguishingFact);
+        }
+
+        FormatUtil.printNode(newDistinguishingFact);
+    }
 
     private void wantToPlayAgain() {
         String prompt = Constants.getPlayAgain();
@@ -83,7 +106,6 @@ public class AnimalGame {
     private static void secondGreet() {
         System.out.println(Constants.getSecondGameGreeting());
     }
-
 
     private static AnimalFact getDistinguishingFact(Animal animal1, Animal animal2) {
         String prompt = FormatUtil.distinguishingFactPrompt(animal1, animal2);

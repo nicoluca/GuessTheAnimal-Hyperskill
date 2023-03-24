@@ -51,4 +51,6 @@ public class Constants {
     public static String getPlayAgain() {
         return "Would you like to play again?";
     }
+
+    public static String correctGuess() { return "I guessed the animal!"; }
 }
