@@ -1,4 +1,8 @@
-package animals;
+package animals.util;
+
+import animals.Main;
+import animals.domain.Constants;
+import animals.util.StringUtil;
 
 public class CLIUtil {
 
@@ -15,7 +19,7 @@ public class CLIUtil {
         System.out.println(prompt);
         String answer = Main.scanner.nextLine();
         while (!StringUtil.isPositiveAnswer(answer) && !StringUtil.isNegativeAnswer(answer)) {
-            System.out.println(StringUtil.getClarification());
+            System.out.println(Constants.getClarification());
             answer = Main.scanner.nextLine();
         }
         return StringUtil.isPositiveAnswer(answer);

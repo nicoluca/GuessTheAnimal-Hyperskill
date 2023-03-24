@@ -1,6 +1,9 @@
 package animals;
 
-import java.nio.file.Path;
+import animals.domain.Constants;
+import animals.ui.AnimalGame;
+import animals.util.StringUtil;
+
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +18,7 @@ public class Main {
 
     private static void printGoodbye() {
         System.out.println();
-        System.out.println(StringUtil.getGoodbye());
+        System.out.println(Constants.getGoodbye());
     }
 
     private static void greetUser() {

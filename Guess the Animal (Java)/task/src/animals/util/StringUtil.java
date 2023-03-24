@@ -1,4 +1,6 @@
-package animals;
+package animals.util;
+
+import animals.domain.TypeOfFact;
 
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -103,29 +105,7 @@ public class StringUtil {
         return negativeAnswers.contains(answer);
     }
 
-    public static String getClarification() {
-        List<String> clarifications = Arrays.asList(
-                "I'm not sure I caught you: was it yes or no?",
-                "Funny, I still don't understand, is it yes or no?",
-                "Oh, it's too complicated for me: just tell me yes or no.",
-                "Could you please simply say yes or no?",
-                "Oh, no, don't try to confuse me: say yes or no."
-        );
 
-        return clarifications.get(random.nextInt(clarifications.size()));
-    }
-
-    public static String getGoodbye() {
-        List<String> goodbyes = Arrays.asList(
-                "Bye!",
-                "See you!",
-                "Goodbye!",
-                "Have a nice day!",
-                "Have a good day!"
-        );
-
-        return goodbyes.get(random.nextInt(goodbyes.size()));
-    }
 
     public static boolean sentenceIsFact(String sentence) {
         // Needs to start with 'It can/has/is'

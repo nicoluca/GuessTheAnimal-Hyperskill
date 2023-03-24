@@ -2,8 +2,8 @@
 //
 //package animals.tests;
 //
-//import animals.StringUtil;
-//import animals.TypeOfFact;
+//import animals.util.StringUtil;
+//import animals.domain.TypeOfFact;
 //import org.junit.Test;
 //
 //import static org.junit.Assert.*;

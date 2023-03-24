@@ -1,6 +1,9 @@
-package animals;
+package animals.domain.animals;
 
-public class AnimalFact {
+import animals.domain.TypeOfFact;
+import animals.util.StringUtil;
+
+public class AnimalFact implements QuestionInterface {
     private TypeOfFact typeOfFact;
     private String fact;
 
@@ -14,6 +17,14 @@ public class AnimalFact {
             throw new IllegalArgumentException("The sentence is not a fact: " + fact);
 
         return new AnimalFact(StringUtil.getTypeOfFact(fact), StringUtil.formatFact(fact));
+    }
+
+    @Override
+    public String toString() {
+        return "AnimalFact{" +
+                "typeOfFact=" + typeOfFact +
+                ", fact='" + fact + '\'' +
+                '}';
     }
 
     public String getStringForTrue() {
@@ -42,7 +53,7 @@ public class AnimalFact {
         }
     }
 
-    public String getDistinguishingQuestion() {
+    public String getQuestion() {
         switch (this.typeOfFact) {
             case CAN:
                 return "Can it " + this.fact + "?";

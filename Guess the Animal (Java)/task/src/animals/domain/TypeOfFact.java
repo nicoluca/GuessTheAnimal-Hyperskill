@@ -1,4 +1,4 @@
-package animals;
+package animals.domain;
 
 public enum TypeOfFact {
     CAN,
