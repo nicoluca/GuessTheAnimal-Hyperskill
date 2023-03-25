@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Node<T> {
-    private final T data;
+    private T data;
     private Node<T> no;
     private Node<T> yes;
-    private Node<T> parent;
 
     public Node(T data) {
         this.data = data;
@@ -17,6 +16,10 @@ public class Node<T> {
     @JsonIgnore
     public boolean isLeaf() {
         return this.no == null && this.yes == null;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 
     public T getData() {
@@ -29,15 +32,6 @@ public class Node<T> {
 
     public void setNo(Node<T> no) {
         this.no = no;
-        this.no.setParent(this);
-    }
-
-    private void setParent(Node<T> parentNode) {
-        this.parent = parentNode;
-    }
-
-    public Node<T> getParent() {
-        return parent;
     }
 
     public Node<T> getYes() {
@@ -46,7 +40,5 @@ public class Node<T> {
 
     public void setYes(Node<T> yes) {
         this.yes = yes;
-        this.yes.setParent(this);
     }
-
 }

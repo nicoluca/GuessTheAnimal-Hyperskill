@@ -2,10 +2,12 @@ package animals.domain.animals;
 
 import animals.domain.TypeOfFact;
 import animals.util.StringUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 public class AnimalFact implements QuestionInterface {
-    private TypeOfFact typeOfFact;
-    private String fact;
+    private final TypeOfFact typeOfFact;
+    private final String fact;
 
     private AnimalFact(TypeOfFact typeOfFact, String fact) {
         this.typeOfFact = typeOfFact;
@@ -19,6 +21,16 @@ public class AnimalFact implements QuestionInterface {
         return new AnimalFact(StringUtil.getTypeOfFact(fact), StringUtil.formatFact(fact));
     }
 
+    @JsonInclude
+    public TypeOfFact getTypeOfFact() {
+        return typeOfFact;
+    }
+
+    @JsonInclude
+    public String getFact() {
+        return fact;
+    }
+
     @Override
     public String toString() {
         return "AnimalFact{" +
@@ -27,42 +39,30 @@ public class AnimalFact implements QuestionInterface {
                 '}';
     }
 
+    @JsonIgnore
     public String getStringForTrue() {
-        switch (this.typeOfFact) {
-            case CAN:
-                return "can " + this.fact + ".";
-            case HAS:
-                return "has " + this.fact + ".";
-            case IS:
-                return "is " + this.fact + ".";
-            default:
-                throw new IllegalStateException("Unexpected value: " + this.typeOfFact);
-        }
+        return switch (this.typeOfFact) {
+            case CAN -> "can " + this.fact + ".";
+            case HAS -> "has " + this.fact + ".";
+            case IS -> "is " + this.fact + ".";
+        };
     }
 
+    @JsonIgnore
     public String getStringForFalse() {
-        switch (this.typeOfFact) {
-            case CAN:
-                return "can't " + this.fact + ".";
-            case HAS:
-                return "doesn't have " + this.fact + ".";
-            case IS:
-                return "isn't " + this.fact + ".";
-            default:
-                throw new IllegalStateException("Unexpected value: " + this.typeOfFact);
-        }
+        return switch (this.typeOfFact) {
+            case CAN -> "can't " + this.fact + ".";
+            case HAS -> "doesn't have " + this.fact + ".";
+            case IS -> "isn't " + this.fact + ".";
+        };
     }
 
+    @JsonIgnore
     public String getQuestion() {
-        switch (this.typeOfFact) {
-            case CAN:
-                return "Can it " + this.fact + "?";
-            case HAS:
-                return "Does it have " + this.fact + "?";
-            case IS:
-                return "Is it " + this.fact + "?";
-            default:
-                throw new IllegalStateException("Unexpected value: " + this.typeOfFact);
-        }
+        return switch (this.typeOfFact) {
+            case CAN -> "Can it " + this.fact + "?";
+            case HAS -> "Does it have " + this.fact + "?";
+            case IS -> "Is it " + this.fact + "?";
+        };
     }
 }

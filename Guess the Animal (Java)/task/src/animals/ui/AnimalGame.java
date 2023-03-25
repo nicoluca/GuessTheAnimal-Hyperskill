@@ -35,6 +35,7 @@ public class AnimalGame {
         this.tree = new BinaryTree(this.currentNode);
 
         playGame();
+        saveGame();
     }
 
     private void playGame() {
@@ -61,7 +62,6 @@ public class AnimalGame {
         }
 
         wantToPlayAgain();
-        saveGame();
     }
 
     private void saveGame() {
@@ -77,19 +77,17 @@ public class AnimalGame {
         AnimalFact distinguishingFact = getDistinguishingFact(animal1, animal2);
         boolean trueForAnimal2 = CLIUtil.isYesAnswer(animal2.getFactQuestion());
 
-        Node<QuestionInterface> newDistinguishingFact = createNewDistinguishingFact(distinguishingFact, animal1, animal2, trueForAnimal2);
+        addNodesToTree(distinguishingFact, animal1, animal2, trueForAnimal2);
 
-        this.tree.replaceLeaf(this.currentNode, newDistinguishingFact);
-        FormatUtil.printNode(newDistinguishingFact);
+        FormatUtil.printNode(this.currentNode);
     }
 
-    private static Node<QuestionInterface> createNewDistinguishingFact(AnimalFact distinguishingFact, Animal animal1, Animal animal2, boolean trueForAnimal2) {
-        Node<QuestionInterface> newDistinguishingFact = new Node<>(distinguishingFact);
-        Node<QuestionInterface> animal1Node = new Node<>(animal1);
-        Node<QuestionInterface> animal2Node = new Node<>(animal2);
-        newDistinguishingFact.setNo(trueForAnimal2 ? animal1Node : animal2Node);
-        newDistinguishingFact.setYes(trueForAnimal2 ? animal2Node : animal1Node);
-        return newDistinguishingFact;
+    private void addNodesToTree(AnimalFact distinguishingFact, Animal animal1, Animal animal2, boolean trueForAnimal2) {
+        this.currentNode.setData(distinguishingFact);
+        Node<QuestionInterface> newAnimal1Node = new Node<>(animal1);
+        Node<QuestionInterface> newAnimal2Node = new Node<>(animal2);
+        this.currentNode.setNo(trueForAnimal2 ? newAnimal1Node : newAnimal2Node);
+        this.currentNode.setYes(trueForAnimal2 ? newAnimal2Node : newAnimal1Node);
     }
 
     private void wantToPlayAgain() {
