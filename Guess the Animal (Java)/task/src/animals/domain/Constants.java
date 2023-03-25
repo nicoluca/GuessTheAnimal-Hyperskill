@@ -53,4 +53,10 @@ public class Constants {
     }
 
     public static String correctGuess() { return "I guessed the animal!"; }
+
+    public static String FileNameJson() { return "animals.json"; }
+
+    public static String FileNameXML() { return "animals.xml"; }
+
+    public static String FileNameYAML() { return "animals.yaml"; }
 }

@@ -21,27 +21,27 @@ public class FormatUtil {
             System.out.println("- " + node.getData().getQuestion());
         }
 
-        if (!node.getLeft().isLeaf())
-            printNode(node.getLeft());
-        if (!node.getRight().isLeaf())
-            printNode(node.getRight());
+        if (!node.getNo().isLeaf())
+            printNode(node.getNo());
+        if (!node.getYes().isLeaf())
+            printNode(node.getYes());
     }
 
     private static void printAnimalFacts(Node node) {
-        if (node.getLeft().isLeaf() || node.getRight().isLeaf()) {
+        if (node.getNo().isLeaf() || node.getYes().isLeaf()) {
             System.out.println("I have learned the following facts about animals:");
-            if (node.getLeft().isLeaf())
-                printAnimalFact(node, node.getLeft());
-            if (node.getRight().isLeaf())
-                printAnimalFact(node, node.getRight());
+            if (node.getNo().isLeaf())
+                printAnimalFact(node, node.getNo());
+            if (node.getYes().isLeaf())
+                printAnimalFact(node, node.getYes());
         }
     }
 
     private static void printAnimalFact(Node node, Node child) {
         String out = "The " + StringUtil.getWithoutArticle(((Animal) child.getData()).toString()) + " ";
-        if (child.equals(node.getLeft()))
+        if (child.equals(node.getNo()))
             out += ((AnimalFact) node.getData()).getStringForFalse();
-        else if (child.equals(node.getRight()))
+        else if (child.equals(node.getYes()))
             out += ((AnimalFact) node.getData()).getStringForTrue();
         System.out.println("- " + out);
     }

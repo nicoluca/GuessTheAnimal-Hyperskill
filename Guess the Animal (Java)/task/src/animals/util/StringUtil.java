@@ -27,6 +27,9 @@ public class StringUtil {
     }
 
     public static String formatAnimalInput(String word) {
+        if (word.isEmpty())
+            throw new IllegalArgumentException("Animal name cannot be empty");
+
         // Example: "a dog" -> "a dog", "the dog" -> "a dog", "dog" -> "a dog"
         String[] parts = word.split(" ");
         String result;

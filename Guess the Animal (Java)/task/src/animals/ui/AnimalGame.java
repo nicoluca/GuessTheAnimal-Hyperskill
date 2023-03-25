@@ -6,6 +6,7 @@ import animals.domain.Constants;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
+import animals.storage.FileManager;
 import animals.util.CLIUtil;
 import animals.util.FormatUtil;
 import animals.util.StringUtil;
@@ -15,10 +16,13 @@ import java.util.logging.Logger;
 
 public class AnimalGame {
     private final static Logger LOGGER = Logger.getLogger(AnimalGame.class.getName());
+    private final FileManager fileManager;
+
     private BinaryTree tree;
     private Node<QuestionInterface> currentNode;
 
-    public AnimalGame() {
+    public AnimalGame(FileManager fileManager) {
+        this.fileManager = fileManager;
     }
 
     public void start() {
@@ -50,13 +54,18 @@ public class AnimalGame {
                 addToTree();
                 break;
             } else if (isCorrect) {
-                this.currentNode = this.currentNode.getRight();
+                this.currentNode = this.currentNode.getYes();
             } else {
-                this.currentNode = this.currentNode.getLeft();
+                this.currentNode = this.currentNode.getNo();
             }
         }
 
         wantToPlayAgain();
+        saveGame();
+    }
+
+    private void saveGame() {
+        this.fileManager.save(this.tree.getRoot());
     }
 
     private void addToTree() {
@@ -70,7 +79,7 @@ public class AnimalGame {
 
         Node<QuestionInterface> newDistinguishingFact = createNewDistinguishingFact(distinguishingFact, animal1, animal2, trueForAnimal2);
 
-        this.tree.replaceNode(this.currentNode, newDistinguishingFact);
+        this.tree.replaceLeaf(this.currentNode, newDistinguishingFact);
         FormatUtil.printNode(newDistinguishingFact);
     }
 
@@ -78,8 +87,8 @@ public class AnimalGame {
         Node<QuestionInterface> newDistinguishingFact = new Node<>(distinguishingFact);
         Node<QuestionInterface> animal1Node = new Node<>(animal1);
         Node<QuestionInterface> animal2Node = new Node<>(animal2);
-        newDistinguishingFact.setLeft(trueForAnimal2 ? animal1Node : animal2Node);
-        newDistinguishingFact.setRight(trueForAnimal2 ? animal2Node : animal1Node);
+        newDistinguishingFact.setNo(trueForAnimal2 ? animal1Node : animal2Node);
+        newDistinguishingFact.setYes(trueForAnimal2 ? animal2Node : animal1Node);
         return newDistinguishingFact;
     }
 
