@@ -12,7 +12,15 @@ public class Constants {
     }
 
     public static String getSecondGameGreeting() {
-        return "Wonderful! I've learned so much about animals!\n" +
+        return "Wonderful!\n" +
+                "I've learned so much about animals!\n" +
+                "Let's play a game!\n" +
+                "You think of an animal, and I guess it.\n" +
+                "Press enter when you're ready.";
+    }
+
+    public static String getGreetingForSavedGame() {
+        return "I know a lot about animals.\n" +
                 "Let's play a game!\n" +
                 "You think of an animal, and I guess it.\n" +
                 "Press enter when you're ready.";

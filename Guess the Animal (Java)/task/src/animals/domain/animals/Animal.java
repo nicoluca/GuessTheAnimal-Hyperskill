@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Animal implements QuestionInterface {
     private final String name;
 
+    // No-arg constructor for Jackson
+    public Animal() {
+        this.name = "";
+    }
+
     public Animal(String input) {
         this.name = StringUtil.formatAnimalInput(input);
     }

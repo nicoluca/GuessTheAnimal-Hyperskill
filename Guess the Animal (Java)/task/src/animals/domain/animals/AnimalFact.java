@@ -9,6 +9,12 @@ public class AnimalFact implements QuestionInterface {
     private final TypeOfFact typeOfFact;
     private final String fact;
 
+    // No-arg constructor for Jackson
+    public AnimalFact() {
+        this.typeOfFact = TypeOfFact.IS;
+        this.fact = "";
+    }
+
     private AnimalFact(TypeOfFact typeOfFact, String fact) {
         this.typeOfFact = typeOfFact;
         this.fact = fact;

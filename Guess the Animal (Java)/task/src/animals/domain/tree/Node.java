@@ -9,6 +9,10 @@ public class Node<T> {
     private Node<T> no;
     private Node<T> yes;
 
+    // No-arg constructor for Jackson
+    public Node() {
+    }
+
     public Node(T data) {
         this.data = data;
     }

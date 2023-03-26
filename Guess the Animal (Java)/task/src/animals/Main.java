@@ -1,6 +1,7 @@
 package animals;
 
 import animals.domain.Constants;
+import animals.domain.tree.Node;
 import animals.storage.FileManager;
 import animals.ui.AnimalGame;
 import animals.util.ArgsUtil;

@@ -11,6 +11,7 @@ import animals.util.CLIUtil;
 import animals.util.FormatUtil;
 import animals.util.StringUtil;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,24 +28,57 @@ public class AnimalGame {
 
     public void start() {
         LOGGER.setLevel(Level.INFO);
-        LOGGER.info("Starting game");
-        greet();
-        
-        Animal animal = new Animal(CLIUtil.getString());
-        this.currentNode = new Node<>(animal);
-        this.tree = new BinaryTree(this.currentNode);
+        createOrRetrieveRootNode();
 
         playGame();
         saveGame();
     }
 
-    private void playGame() {
+    private void createOrRetrieveRootNode() {
+        if (!this.fileManager.savedGameAvailable())
+            startNewGame();
+        else
+            startSavedGame();
+    }
+
+    private void startSavedGame() {
+        LOGGER.info("Saved game found. Starting saved game.");
+        try {
+            this.currentNode = (Node<QuestionInterface>) this.fileManager.load(new Node<QuestionInterface>(new Animal("dummy")));
+            this.tree = new BinaryTree(this.currentNode);
+        } catch (IOException e) {
+            LOGGER.severe("Error loading saved game.");
+            throw new RuntimeException(e);
+        } catch (ClassCastException e) {
+            LOGGER.severe("Not a valid saved game.");
+            throw new RuntimeException(e);
+        }
+        LOGGER.info("Saved game loaded successfully.");
+        LOGGER.info("Root node is " + this.currentNode.getData().toString());
+        greetForSavedGame();
+    }
+
+    private void greetForSavedGame() {
+        System.out.println(Constants.getGreetingForSavedGame());
+    }
+
+    private void startNewGame() {
+        LOGGER.info("No saved game found. Starting new game.");
+        greetForNewGame();
+        Animal animal = new Animal(CLIUtil.getString());
+        this.currentNode = new Node<>(animal);
+        this.tree = new BinaryTree(this.currentNode);
         secondGreet();
+    }
+
+    private void playGame() {
         CLIUtil.getString(); // wait for user to press enter
         this.currentNode = this.tree.getRoot();
 
         while (true) {
             LOGGER.info("Current node is " + this.currentNode.getData().toString());
+            LOGGER.info("Current node is a leaf: " + this.currentNode.isLeaf());
+
             boolean isCorrect = CLIUtil.isYesAnswer(this.currentNode.getData().getQuestion());
 
             if (this.currentNode.isLeaf() && isCorrect) {
@@ -96,7 +130,8 @@ public class AnimalGame {
             playGame();
     }
 
-    private static void greet() {
+    private static void greetForNewGame() {
+        LOGGER.info("Starting new game.");
         System.out.println(Constants.getGameGreeting());
     }
 
