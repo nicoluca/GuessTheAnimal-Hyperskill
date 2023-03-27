@@ -1,8 +1,9 @@
 package animals.ui;
 
+import animals.Main;
 import animals.domain.animals.Animal;
 import animals.domain.animals.AnimalFact;
-import animals.domain.Constants;
+import animals.domain.GameConstants;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
@@ -13,10 +14,8 @@ import animals.util.StringUtil;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AnimalGame {
-    private final static Logger LOGGER = Logger.getLogger(AnimalGame.class.getName());
     private final FileManager fileManager;
 
     private BinaryTree tree;
@@ -27,7 +26,7 @@ public class AnimalGame {
     }
 
     public void start() {
-        LOGGER.setLevel(Level.INFO);
+        Main.LOGGER.setLevel(Level.INFO);
         createOrRetrieveRootNode();
 
         playGame();
@@ -42,28 +41,28 @@ public class AnimalGame {
     }
 
     private void startSavedGame() {
-        LOGGER.info("Saved game found. Starting saved game.");
+        Main.LOGGER.info("Saved game found. Starting saved game.");
         try {
-            this.currentNode = (Node<QuestionInterface>) this.fileManager.load(new Node<QuestionInterface>(new Animal("dummy")));
+            this.currentNode = (Node<QuestionInterface>) this.fileManager.load();
             this.tree = new BinaryTree(this.currentNode);
         } catch (IOException e) {
-            LOGGER.severe("Error loading saved game.");
+            Main.LOGGER.severe("Error loading saved game.");
             throw new RuntimeException(e);
         } catch (ClassCastException e) {
-            LOGGER.severe("Not a valid saved game.");
+            Main.LOGGER.severe("Not a valid saved game.");
             throw new RuntimeException(e);
         }
-        LOGGER.info("Saved game loaded successfully.");
-        LOGGER.info("Root node is " + this.currentNode.getData().toString());
+        Main.LOGGER.info("Saved game loaded successfully.");
+        Main.LOGGER.info("Root node is " + this.currentNode.getData().toString());
         greetForSavedGame();
     }
 
     private void greetForSavedGame() {
-        System.out.println(Constants.getGreetingForSavedGame());
+        System.out.println(GameConstants.getGreetingForSavedGame());
     }
 
     private void startNewGame() {
-        LOGGER.info("No saved game found. Starting new game.");
+        Main.LOGGER.info("No saved game found. Starting new game.");
         greetForNewGame();
         Animal animal = new Animal(CLIUtil.getString());
         this.currentNode = new Node<>(animal);
@@ -76,16 +75,16 @@ public class AnimalGame {
         this.currentNode = this.tree.getRoot();
 
         while (true) {
-            LOGGER.info("Current node is " + this.currentNode.getData().toString());
-            LOGGER.info("Current node is a leaf: " + this.currentNode.isLeaf());
+            Main.LOGGER.info("Current node is " + this.currentNode.getData().toString());
+            Main.LOGGER.info("Current node is a leaf: " + this.currentNode.isLeaf());
 
             boolean isCorrect = CLIUtil.isYesAnswer(this.currentNode.getData().getQuestion());
 
             if (this.currentNode.isLeaf() && isCorrect) {
-                System.out.println(Constants.correctGuess());
+                System.out.println(GameConstants.correctGuess());
                 break;
             } else if (this.currentNode.isLeaf() && !isCorrect) {
-                System.out.println(Constants.getNegativeResponse());
+                System.out.println(GameConstants.getNegativeResponse());
                 addToTree();
                 break;
             } else if (isCorrect) {
@@ -125,18 +124,20 @@ public class AnimalGame {
     }
 
     private void wantToPlayAgain() {
-        String prompt = Constants.getPlayAgain();
-        if (CLIUtil.isYesAnswer(prompt))
+        String prompt = GameConstants.getPlayAgain();
+        if (CLIUtil.isYesAnswer(prompt)) {
+            greetForSavedGame();
             playGame();
+        }
     }
 
     private static void greetForNewGame() {
-        LOGGER.info("Starting new game.");
-        System.out.println(Constants.getGameGreeting());
+        Main.LOGGER.info("Starting new game.");
+        System.out.println(GameConstants.getGameGreeting());
     }
 
     private static void secondGreet() {
-        System.out.println(Constants.getSecondGameGreeting());
+        System.out.println(GameConstants.getSecondGameGreeting());
     }
 
     private static AnimalFact getDistinguishingFact(Animal animal1, Animal animal2) {

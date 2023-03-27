@@ -1,6 +1,6 @@
 package animals.storage;
 
-public enum FileFormat {
+public enum FileFormatEnum {
     XML,
     YAML,
     JSON;

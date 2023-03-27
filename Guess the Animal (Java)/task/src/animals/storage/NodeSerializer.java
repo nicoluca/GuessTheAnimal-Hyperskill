@@ -31,6 +31,5 @@ public class NodeSerializer extends JsonSerializer<Node<QuestionInterface>> {
         }
 
         jg.writeEndObject();
-
     }
 }

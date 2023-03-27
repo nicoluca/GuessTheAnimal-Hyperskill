@@ -1,6 +1,5 @@
 package animals.domain.animals;
 
-import animals.domain.TypeOfFact;
 import animals.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

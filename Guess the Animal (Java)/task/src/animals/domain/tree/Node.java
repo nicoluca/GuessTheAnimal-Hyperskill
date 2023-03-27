@@ -1,9 +1,6 @@
 package animals.domain.tree;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// (De-)Serialization via custom (De-)Serializer
 public class Node<T> {
     private T data;
     private Node<T> no;
@@ -17,7 +14,6 @@ public class Node<T> {
         this.data = data;
     }
 
-    @JsonIgnore
     public boolean isLeaf() {
         return this.no == null && this.yes == null;
     }

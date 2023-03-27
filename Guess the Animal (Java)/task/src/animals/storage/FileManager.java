@@ -4,7 +4,6 @@ import animals.Main;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.Node;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -16,18 +15,18 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 public class FileManager {
-    private final FileFormat fileFormat;
+    private final FileFormatEnum fileFormatEnum;
     private final ObjectMapper objectMapper;
 
-    public FileManager(FileFormat fileFormat) {
-        this.fileFormat = fileFormat;
+    public FileManager(FileFormatEnum fileFormatEnum) {
+        this.fileFormatEnum = fileFormatEnum;
 
-        switch (fileFormat) {
+        switch (fileFormatEnum) {
             case XML -> this.objectMapper = new XmlMapper();
             case YAML -> this.objectMapper = new YAMLMapper();
             case JSON -> this.objectMapper = new JsonMapper();
             default -> {
-                Main.LOGGER.warning("Unknown file format: " + fileFormat + ". Using JSON.");
+                Main.LOGGER.warning("Unknown file format: " + fileFormatEnum + ". Using JSON.");
                 this.objectMapper = new JsonMapper();
             }
         }
@@ -39,29 +38,27 @@ public class FileManager {
     }
 
     public void save(Object object) {
-        if (Paths.get(this.fileFormat.getFileName()).toFile().exists()) {
-            Main.LOGGER.info("File " + this.fileFormat.getFileName() + " already exists. Overwriting.");
-            // Paths.get(this.fileFormat.getFileName()).toFile().delete();
-        }
+        if (Paths.get(this.fileFormatEnum.getFileName()).toFile().exists())
+            Main.LOGGER.info("File " + this.fileFormatEnum.getFileName() + " already exists. Overwriting.");
 
         try {
             this.objectMapper
                     .writerWithDefaultPrettyPrinter()
-                    .writeValue(new File(this.fileFormat.getFileName()), object);
-            Main.LOGGER.info("Saved " + object.toString() + " to " + this.fileFormat.getFileName());
+                    .writeValue(new File(this.fileFormatEnum.getFileName()), object);
+            Main.LOGGER.info("Saved " + object.toString() + " to " + this.fileFormatEnum.getFileName());
         } catch (IOException e) {
-            Main.LOGGER.warning("Could not save " + object.toString() + " to " + this.fileFormat.getFileName());
+            Main.LOGGER.warning("Could not save " + object.toString() + " to " + this.fileFormatEnum.getFileName());
             e.printStackTrace();
         }
     }
 
     public boolean savedGameAvailable() {
-        return Paths.get(this.fileFormat.getFileName()).toFile().exists();
+        return Paths.get(this.fileFormatEnum.getFileName()).toFile().exists();
     }
 
-    public Object load(Object object) throws IOException {
+    public Object load() throws IOException {
         return objectMapper.readValue(
-                new File(this.fileFormat.getFileName()),
+                new File(this.fileFormatEnum.getFileName()),
                 new TypeReference<Node<QuestionInterface>>() {});
     }
 }

@@ -3,7 +3,7 @@
 //package animals.tests;
 //
 //import animals.util.StringUtil;
-//import animals.domain.TypeOfFact;
+//import animals.domain.animals.TypeOfFact;
 //import org.junit.Test;
 //
 //import static org.junit.Assert.*;

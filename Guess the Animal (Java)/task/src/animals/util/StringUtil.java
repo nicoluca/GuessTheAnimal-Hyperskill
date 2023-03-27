@@ -1,6 +1,6 @@
 package animals.util;
 
-import animals.domain.TypeOfFact;
+import animals.domain.animals.TypeOfFact;
 
 import java.time.LocalTime;
 import java.util.Arrays;
