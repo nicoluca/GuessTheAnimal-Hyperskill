@@ -1,4 +1,4 @@
-package animals.ui;
+package animals.ui.menu;
 
 import animals.Main;
 import animals.util.CLIUtil;
@@ -24,13 +24,14 @@ public class TextMenu {
     }
 
     private void addMenuItem(MenuItem menuItem) {
-        menuItems.put(menuItems.size() + 1, menuItem);
+        menuItems.put(menuItems.size(), menuItem);
     }
 
     private void print() {
         System.out.println(title);
-        for (int i = 1; i <= menuItems.size(); i++)
+        for (int i = 1; i < menuItems.size(); i++)
             System.out.println(i + ". " + menuItems.get(i).getDescription());
+        System.out.println(0 + ". " + menuItems.get(0).getDescription());
     }
 
     private void launchMenuItem(int index) {
@@ -51,7 +52,7 @@ public class TextMenu {
 
     private int getValidChoice() {
         int choice = CLIUtil.getInt();
-        if (choice < 1 || choice > menuItems.size()) {
+        if (choice < 0 || choice > menuItems.size() - 1) {
             System.out.println("Please select a valid menu item.");
             return getValidChoice();
         }

@@ -1,4 +1,4 @@
-package animals.domain;
+package animals.util;
 
 import java.util.Arrays;
 import java.util.List;

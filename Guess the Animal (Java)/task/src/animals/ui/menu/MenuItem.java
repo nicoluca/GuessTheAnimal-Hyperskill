@@ -1,4 +1,4 @@
-package animals.ui;
+package animals.ui.menu;
 
 public class MenuItem {
     private final String description;

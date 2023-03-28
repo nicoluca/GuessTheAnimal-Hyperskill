@@ -1,10 +1,10 @@
 package animals;
 
-import animals.domain.GameConstants;
-import animals.logic.GameManager;
+import animals.util.GameConstants;
+import animals.ui.game.GameManager;
 import animals.storage.FileManager;
-import animals.ui.AnimalGame;
-import animals.ui.TextMenu;
+import animals.ui.game.AnimalGame;
+import animals.ui.menu.TextMenu;
 import animals.util.ArgsUtil;
 import animals.util.StringUtil;
 

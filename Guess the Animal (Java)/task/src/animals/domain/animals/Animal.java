@@ -35,4 +35,5 @@ public class Animal implements QuestionInterface {
     public String getFactQuestion() {
         return "Is the statement correct for " + name + "?";
     }
+
 }

@@ -1,7 +1,7 @@
-package animals.logic;
+package animals.ui.game;
 
 import animals.Main;
-import animals.domain.GameConstants;
+import animals.util.GameConstants;
 import animals.domain.animals.Animal;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;

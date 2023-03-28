@@ -1,4 +1,4 @@
-package animals.logic;
+package animals.ui.game;
 
 import animals.domain.animals.Animal;
 import animals.domain.animals.QuestionInterface;
@@ -21,7 +21,6 @@ public class AnimalLister {
                 .sorted().toList();
         printAnimals(animalNames);
     }
-
 
     private static void searchForAnimals(Node<QuestionInterface> node, List<Animal> animals) {
         // Depth-first search

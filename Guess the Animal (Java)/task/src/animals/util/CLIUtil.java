@@ -1,7 +1,6 @@
 package animals.util;
 
 import animals.Main;
-import animals.domain.GameConstants;
 
 public class CLIUtil {
 

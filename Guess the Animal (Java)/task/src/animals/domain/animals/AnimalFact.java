@@ -38,10 +38,7 @@ public class AnimalFact implements QuestionInterface {
 
     @Override
     public String toString() {
-        return "AnimalFact{" +
-                "typeOfFact=" + typeOfFact +
-                ", fact='" + fact + '\'' +
-                '}';
+        return getQuestion();
     }
 
     @JsonIgnore

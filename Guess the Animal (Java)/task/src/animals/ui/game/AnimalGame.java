@@ -1,20 +1,15 @@
-package animals.ui;
+package animals.ui.game;
 
 import animals.Main;
 import animals.domain.animals.Animal;
 import animals.domain.animals.AnimalFact;
-import animals.domain.GameConstants;
+import animals.util.GameConstants;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
-import animals.logic.GameManager;
-import animals.storage.FileManager;
 import animals.util.CLIUtil;
 import animals.util.FormatUtil;
 import animals.util.StringUtil;
-
-import java.io.IOException;
-import java.util.logging.Level;
 
 public class AnimalGame implements Runnable {
     private static AnimalGame instance;
