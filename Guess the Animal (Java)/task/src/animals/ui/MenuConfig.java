@@ -2,6 +2,7 @@ package animals.ui;
 
 import animals.Main;
 import animals.logic.AnimalLister;
+import animals.logic.GameManager;
 
 import java.util.List;
 
@@ -12,19 +13,16 @@ public class MenuConfig {
 
     // TODO Continue here
     public static List<MenuItem> getMenuItems() {
-        List<MenuItem> menuItems = List.of(
-                new MenuItem("Play the guessing game", () -> {
-                    AnimalGame.getInstance().run();
-                }),
+        return List.of(
+                new MenuItem("Play the guessing game", () -> AnimalGame.getInstance().run()),
                 new MenuItem("List of all animals", () -> {
                     Main.LOGGER.info("Listing all animals");
-                    AnimalLister.listAllAnimals();
+                    AnimalLister.listAllAnimals(GameManager.getInstance().getTree());
                 }),
                 new MenuItem("Exit", () -> {
                     Main.LOGGER.info("Exiting program");
                     TextMenu.getInstance().stop();
                 })
         );
-        return menuItems;
     }
 }
