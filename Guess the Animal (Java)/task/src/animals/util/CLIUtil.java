@@ -23,4 +23,14 @@ public class CLIUtil {
         }
         return StringUtil.isPositiveAnswer(answer);
     }
+
+    public static int getInt() {
+        try {
+            return Integer.parseInt(Main.scanner.nextLine());
+        } catch (NumberFormatException e) {
+            Main.LOGGER.warning("Invalid input");
+            System.out.println("Please enter a valid number.");
+            return getInt();
+        }
+    }
 }

@@ -15,32 +15,35 @@ import animals.util.StringUtil;
 import java.io.IOException;
 import java.util.logging.Level;
 
-public class AnimalGame {
+public class AnimalGame implements Runnable {
+    private static AnimalGame instance;
     private final FileManager fileManager;
 
     private BinaryTree tree;
     private Node<QuestionInterface> currentNode;
 
-    public AnimalGame(FileManager fileManager) {
+    private AnimalGame(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
-    public void start() {
-        Main.LOGGER.setLevel(Level.INFO);
-        createOrRetrieveRootNode();
+    public static AnimalGame getInstance() {
+        if (instance == null)
+            instance = new AnimalGame(Main.fileManager);
+        return instance;
+    }
 
+    @Override
+    public void run() {
+
+        loadGame();
         playGame();
         saveGame();
     }
 
-    private void createOrRetrieveRootNode() {
-        if (!this.fileManager.savedGameAvailable())
-            startNewGame();
-        else
-            startSavedGame();
-    }
+    private void loadGame() {
+        if (!fileManager.savedGameAvailable())
+            throw new IllegalStateException("No saved game available.");
 
-    private void startSavedGame() {
         Main.LOGGER.info("Saved game found. Starting saved game.");
         try {
             this.currentNode = (Node<QuestionInterface>) this.fileManager.load();
@@ -61,13 +64,14 @@ public class AnimalGame {
         System.out.println(GameConstants.getGreetingForSavedGame());
     }
 
-    private void startNewGame() {
-        Main.LOGGER.info("No saved game found. Starting new game.");
+    public void getFirstAnimal() {
+        Main.LOGGER.info("No saved game found. Starting new game, querying for first animal.");
         greetForNewGame();
         Animal animal = new Animal(CLIUtil.getString());
         this.currentNode = new Node<>(animal);
         this.tree = new BinaryTree(this.currentNode);
         secondGreet();
+        saveGame();
     }
 
     private void playGame() {
@@ -148,5 +152,9 @@ public class AnimalGame {
             distinguishingFact = CLIUtil.getString(prompt);
 
         return AnimalFact.generateFromString(distinguishingFact);
+    }
+    // TODO
+    public void listAllAnimals() {
+        System.out.println("All animals:");
     }
 }
