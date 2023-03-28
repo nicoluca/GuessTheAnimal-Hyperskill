@@ -1,6 +1,7 @@
 package animals;
 
 import animals.domain.GameConstants;
+import animals.logic.GameManager;
 import animals.storage.FileManager;
 import animals.ui.AnimalGame;
 import animals.ui.TextMenu;
@@ -15,6 +16,7 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static final Logger LOGGER = Logger.getLogger(Main.class.getName());
     public static FileManager fileManager;
+    private static GameManager gameManager;
     public static AnimalGame animalGame;
     private static TextMenu menu;
 
@@ -33,19 +35,18 @@ public class Main {
 
     private static void setUpProgram(String[] args) {
         fileManager = new FileManager(ArgsUtil.getFileFormat(args));
-        animalGame = AnimalGame.getInstance();
-        printTimeBasedGreeting();
-        bootAnimalSystem();
+        launchAnimalGame();
     }
 
-    private static void bootAnimalSystem() {
-        if (!fileManager.savedGameAvailable())
-            animalGame.getFirstAnimal();
-
+    private static void launchAnimalGame() {
+        gameManager = GameManager.getInstance();
+        animalGame = AnimalGame.getInstance();
+        printTimeBasedGreeting();
         System.out.println("Welcome to the animal expert system!\n");
     }
 
     private static void exitProgram() {
+        gameManager.saveGame();
         printGoodbye();
         scanner.close();
     }

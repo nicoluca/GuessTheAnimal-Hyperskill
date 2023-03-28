@@ -7,6 +7,7 @@ import animals.domain.GameConstants;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
+import animals.logic.GameManager;
 import animals.storage.FileManager;
 import animals.util.CLIUtil;
 import animals.util.FormatUtil;
@@ -17,65 +18,27 @@ import java.util.logging.Level;
 
 public class AnimalGame implements Runnable {
     private static AnimalGame instance;
-    private final FileManager fileManager;
 
     private BinaryTree tree;
     private Node<QuestionInterface> currentNode;
 
-    private AnimalGame(FileManager fileManager) {
-        this.fileManager = fileManager;
+    private AnimalGame(BinaryTree binaryTree) {
+        this.tree = binaryTree;
     }
 
     public static AnimalGame getInstance() {
         if (instance == null)
-            instance = new AnimalGame(Main.fileManager);
+            instance = new AnimalGame(GameManager.getInstance().getTree());
         return instance;
     }
 
     @Override
     public void run() {
-
-        loadGame();
         playGame();
-        saveGame();
-    }
-
-    private void loadGame() {
-        if (!fileManager.savedGameAvailable())
-            throw new IllegalStateException("No saved game available.");
-
-        Main.LOGGER.info("Saved game found. Starting saved game.");
-        try {
-            this.currentNode = (Node<QuestionInterface>) this.fileManager.load();
-            this.tree = new BinaryTree(this.currentNode);
-        } catch (IOException e) {
-            Main.LOGGER.severe("Error loading saved game.");
-            throw new RuntimeException(e);
-        } catch (ClassCastException e) {
-            Main.LOGGER.severe("Not a valid saved game.");
-            throw new RuntimeException(e);
-        }
-        Main.LOGGER.info("Saved game loaded successfully.");
-        Main.LOGGER.info("Root node is " + this.currentNode.getData().toString());
-        greetForSavedGame();
-    }
-
-    private void greetForSavedGame() {
-        System.out.println(GameConstants.getGreetingForSavedGame());
-    }
-
-    public void getFirstAnimal() {
-        Main.LOGGER.info("No saved game found. Starting new game, querying for first animal.");
-        greetForNewGame();
-        Animal animal = new Animal(CLIUtil.getString());
-        this.currentNode = new Node<>(animal);
-        this.tree = new BinaryTree(this.currentNode);
-        secondGreet();
-        saveGame();
     }
 
     private void playGame() {
-        CLIUtil.getString(); // wait for user to press enter
+        greetForSavedGame();
         this.currentNode = this.tree.getRoot();
 
         while (true) {
@@ -99,10 +62,6 @@ public class AnimalGame implements Runnable {
         }
 
         wantToPlayAgain();
-    }
-
-    private void saveGame() {
-        this.fileManager.save(this.tree.getRoot());
     }
 
     private void addToTree() {
@@ -130,18 +89,8 @@ public class AnimalGame implements Runnable {
     private void wantToPlayAgain() {
         String prompt = GameConstants.getPlayAgain();
         if (CLIUtil.isYesAnswer(prompt)) {
-            greetForSavedGame();
             playGame();
         }
-    }
-
-    private static void greetForNewGame() {
-        Main.LOGGER.info("Starting new game.");
-        System.out.println(GameConstants.getGameGreeting());
-    }
-
-    private static void secondGreet() {
-        System.out.println(GameConstants.getSecondGameGreeting());
     }
 
     private static AnimalFact getDistinguishingFact(Animal animal1, Animal animal2) {
@@ -153,8 +102,10 @@ public class AnimalGame implements Runnable {
 
         return AnimalFact.generateFromString(distinguishingFact);
     }
-    // TODO
-    public void listAllAnimals() {
-        System.out.println("All animals:");
+
+    private void greetForSavedGame() {
+        System.out.println(GameConstants.getGreetingForSavedGame());
+        CLIUtil.getString(); // wait for user to press enter
     }
+
 }

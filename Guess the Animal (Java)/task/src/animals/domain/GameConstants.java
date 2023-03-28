@@ -22,8 +22,6 @@ public class GameConstants {
 
     public static String getGreetingForSavedGame() {
         return """
-                I know a lot about animals.
-                Let's play a game!
                 You think of an animal, and I guess it.
                 Press enter when you're ready.""";
     }

@@ -10,11 +10,11 @@ public class StringUtil {
     public static String getGreetingStringBasedOnTime() {
         int hour = LocalTime.now().getHour();
         if (hour >= 5 && hour < 12)
-            return "Good morning!";
+            return "Good morning!\n";
         else if (hour >= 12 && hour < 18)
-            return "Good afternoon!";
+            return "Good afternoon!\n";
         else
-            return "Good evening!";
+            return "Good evening!\n";
     }
 
     public static String getWithoutArticle(String word) {

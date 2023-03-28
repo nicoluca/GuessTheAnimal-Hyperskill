@@ -1,6 +1,7 @@
 package animals.ui;
 
 import animals.Main;
+import animals.logic.AnimalLister;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class MenuConfig {
                 }),
                 new MenuItem("List of all animals", () -> {
                     Main.LOGGER.info("Listing all animals");
-                    AnimalGame.getInstance().listAllAnimals();
+                    AnimalLister.listAllAnimals();
                 }),
                 new MenuItem("Exit", () -> {
                     Main.LOGGER.info("Exiting program");
