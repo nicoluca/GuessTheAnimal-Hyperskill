@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalLister {
-    // TODO
     public static void listAllAnimals(BinaryTree tree) {
         List<Animal> animals = new ArrayList<>();
         Node node = tree.getRoot();
-        searchForAnimals(node, animals);
+        addAnimalsToList(node, animals);
         List<String> animalNames = animals.stream()
                 .map(Animal::getName)
                 .map(StringUtil::getWithoutArticle)
@@ -22,15 +21,15 @@ public class AnimalLister {
         printAnimals(animalNames);
     }
 
-    private static void searchForAnimals(Node<QuestionInterface> node, List<Animal> animals) {
+    private static void addAnimalsToList(Node<QuestionInterface> node, List<Animal> animals) {
         // Depth-first search
         if (node.getData() instanceof Animal)
             animals.add((Animal) node.getData());
 
         if (node.getYes() != null)
-            searchForAnimals(node.getYes(), animals);
+            addAnimalsToList(node.getYes(), animals);
         if (node.getNo() != null)
-            searchForAnimals(node.getNo(), animals);
+            addAnimalsToList(node.getNo(), animals);
     }
 
     private static void printAnimals(List<String> animalNames) {

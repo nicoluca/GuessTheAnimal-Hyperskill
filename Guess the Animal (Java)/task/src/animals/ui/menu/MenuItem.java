@@ -9,7 +9,6 @@ public class MenuItem {
         this.action = action;
     }
 
-    // TODO Check if this is the best way to do this
     public void launch() throws InterruptedException {
         Thread thread = new Thread(action);
         thread.start();

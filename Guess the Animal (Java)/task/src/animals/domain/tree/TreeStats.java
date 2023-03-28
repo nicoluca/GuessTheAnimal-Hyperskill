@@ -8,27 +8,26 @@ public class TreeStats {
     private int numberOfLeaves = 0;
     private int maxDepth = 0;
     private int minLeafDepth = Integer.MAX_VALUE;
-    private double averageLeafDepth = 0;
+    private double averageLeafDepth;
 
     public TreeStats(BinaryTree tree) {
         List<Integer> leafDepths = new ArrayList<>();
-        traverseTree(tree.getRoot(), 0, leafDepths);
+        traverseTreeDFS(tree.getRoot(), 0, leafDepths);
         this.averageLeafDepth = leafDepths.stream()
                 .mapToInt(Integer::intValue)
                 .average().orElse(0);
     }
 
-    private void traverseTree(Node node, int depth, List<Integer> leafDepths) {
+    private void traverseTreeDFS(Node node, int depth, List<Integer> leafDepths) {
         if (node.isLeaf()) {
             this.numberOfLeaves++;
             updateMinLeafDepth(depth);
             leafDepths.add(depth);
-        } else if (node != null) {
+        } else {
             this.numberOfNodes++;
-            traverseTree(node.getYes(), depth + 1, leafDepths);
-            traverseTree(node.getNo(), depth + 1, leafDepths);
-        } else
-            return;
+            traverseTreeDFS(node.getYes(), depth + 1, leafDepths);
+            traverseTreeDFS(node.getNo(), depth + 1, leafDepths);
+        }
 
         updateMaxDepth(depth);
     }

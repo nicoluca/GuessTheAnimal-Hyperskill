@@ -18,7 +18,6 @@ public class Main {
     public static FileManager fileManager;
     private static GameManager gameManager;
     public static AnimalGame animalGame;
-    private static TextMenu menu;
 
     public static void main(String[] args) {
         Main.LOGGER.setLevel(Level.WARNING);
@@ -27,22 +26,20 @@ public class Main {
         exitProgram();
     }
 
-    private static void launchMenu() {
-        menu = TextMenu.getInstance();
-        menu.launch();
-    }
-
-
     private static void setUpProgram(String[] args) {
         fileManager = new FileManager(ArgsUtil.getFileFormat(args));
         launchAnimalGame();
+    }
+
+    private static void launchMenu() {
+        TextMenu menu = TextMenu.getInstance();
+        menu.launch();
     }
 
     private static void launchAnimalGame() {
         gameManager = GameManager.getInstance();
         animalGame = AnimalGame.getInstance();
         printTimeBasedGreeting();
-        System.out.println("Welcome to the animal expert system!\n");
     }
 
     private static void exitProgram() {

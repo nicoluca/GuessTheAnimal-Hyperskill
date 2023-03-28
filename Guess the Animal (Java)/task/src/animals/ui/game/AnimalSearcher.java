@@ -22,7 +22,7 @@ public class AnimalSearcher {
         Deque<Node> nodes = new LinkedList<>();
         nodes.push(tree.getRoot());
 
-        boolean found = traverseNodes(animalName, nodes);
+        boolean found = depthFirstSearch(animalName, nodes);
 
         if (found)
             printFacts(animalName, nodes);
@@ -30,20 +30,8 @@ public class AnimalSearcher {
             System.out.println("No facts about the " + animalName);
     }
 
-    private static void printFacts(String animalName, Deque<Node> nodes) {
-        System.out.println("Facts about the " + animalName + ":");
-
-        while (nodes.size() > 1) {
-            Node currentFactNode = nodes.removeLast();
-            boolean isYes = currentFactNode.getYes().equals(nodes.peekLast()) ? true : false;
-            AnimalFact currentFact = (AnimalFact) currentFactNode.getData();
-            String fact = isYes ? currentFact.getStringForTrue() : currentFact.getStringForFalse();
-            System.out.println("- It " + fact);
-        }
-    }
-
-    private static boolean traverseNodes(String animalName, Deque<Node> nodes) {
-        // Check if correct animal
+    private static boolean depthFirstSearch(String animalName, Deque<Node> nodes) {
+        // Recursive depth-first search, returns true if animalName is found, adds nodes to the stack on the way
         if (nodes.peek().getData() instanceof Animal currentAnimal) {
             if (StringUtil.getWithoutArticle(currentAnimal.getName()).equalsIgnoreCase(animalName)) {
                 return true;
@@ -52,14 +40,27 @@ public class AnimalSearcher {
 
         if (!nodes.peek().isLeaf()) {
             nodes.push(nodes.peek().getYes());
-            if (traverseNodes(animalName, nodes))
+            if (depthFirstSearch(animalName, nodes))
                 return true;
             nodes.push(nodes.peek().getNo());
-            if (traverseNodes(animalName, nodes))
+            if (depthFirstSearch(animalName, nodes))
                 return true;
         }
 
         nodes.pop();
         return false;
+    }
+
+    private static void printFacts(String animalName, Deque<Node> nodes) {
+        System.out.println("Facts about the " + animalName + ":");
+
+        // Prints from bottom to top, as the stack is reversed
+        while (nodes.size() > 1) {
+            Node currentFactNode = nodes.removeLast();
+            boolean isYes = currentFactNode.getYes().equals(nodes.peekLast());
+            AnimalFact currentFact = (AnimalFact) currentFactNode.getData();
+            String fact = isYes ? currentFact.getStringForTrue() : currentFact.getStringForFalse();
+            System.out.println("- It " + fact);
+        }
     }
 }

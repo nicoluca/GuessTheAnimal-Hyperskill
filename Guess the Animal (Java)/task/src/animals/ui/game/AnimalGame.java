@@ -13,8 +13,7 @@ import animals.util.StringUtil;
 
 public class AnimalGame implements Runnable {
     private static AnimalGame instance;
-
-    private BinaryTree tree;
+    private final BinaryTree tree;
     private Node<QuestionInterface> currentNode;
 
     private AnimalGame(BinaryTree binaryTree) {

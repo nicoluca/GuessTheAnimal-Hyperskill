@@ -9,12 +9,14 @@ import java.util.List;
 public class StringUtil {
     public static String getGreetingStringBasedOnTime() {
         int hour = LocalTime.now().getHour();
+        String greeting;
         if (hour >= 5 && hour < 12)
-            return "Good morning!\n";
+            greeting =  "Good morning!\n";
         else if (hour >= 12 && hour < 18)
-            return "Good afternoon!\n";
+            greeting = "Good afternoon!\n";
         else
-            return "Good evening!\n";
+            greeting =  "Good evening!\n";
+        return greeting + "Welcome to the animal expert system!\n";
     }
 
     public static String getWithoutArticle(String word) {
