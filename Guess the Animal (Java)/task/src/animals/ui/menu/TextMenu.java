@@ -4,12 +4,14 @@ import animals.Main;
 import animals.util.CLIUtil;
 
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 public class TextMenu {
     private static TextMenu instance;
     private final String title = MenuConfig.getMenuTitle();
     private final HashMap<Integer, MenuItem> menuItems;
     private boolean isRunning;
+
 
     private TextMenu() {
         this.menuItems = new HashMap<>();
