@@ -21,6 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main.LOGGER.setLevel(Level.WARNING);
+        Main.LOGGER.info("Current localization set to: " + LocalizationUtil.getLanguage());
         setUpProgram(args);
         launchMenu();
         exitProgram();

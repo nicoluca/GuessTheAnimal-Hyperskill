@@ -66,7 +66,7 @@ public class AnimalGame implements Runnable {
 
         addNodesToTree(distinguishingFact, animal1, animal2, trueForAnimal2);
 
-        FormatUtil.printNode(this.currentNode);
+        PrintUtil.printNode(this.currentNode);
     }
 
     private void addNodesToTree(AnimalFact distinguishingFact, Animal animal1, Animal animal2, boolean trueForAnimal2) {
@@ -85,7 +85,7 @@ public class AnimalGame implements Runnable {
     }
 
     private static AnimalFact getDistinguishingFact(Animal animal1, Animal animal2) {
-        String prompt = FormatUtil.distinguishingFactPrompt(animal1, animal2);
+        String prompt = PrintUtil.distinguishingFactPrompt(animal1, animal2);
         String distinguishingFact = CLIUtil.getString(prompt);
 
         while (!StringUtil.sentenceIsFact(distinguishingFact))

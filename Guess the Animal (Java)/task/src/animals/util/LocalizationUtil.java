@@ -42,7 +42,12 @@ public class LocalizationUtil {
 
     public static String getMessageWithArguments(String key, String... values) {
         String message = getMessage(key);
-        for (String value : values) message = message.replace("%s", value);
+        for (int i = 0; i < values.length; i++)
+            message = message.replace("%s" + (i + 1), values[i]);
         return message;
+    }
+
+    public static String getLanguage() {
+        return Locale.getDefault().getLanguage();
     }
 }

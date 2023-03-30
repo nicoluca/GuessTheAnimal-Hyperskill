@@ -5,7 +5,7 @@ import animals.domain.animals.AnimalFact;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.Node;
 
-public class FormatUtil {
+public class PrintUtil {
     public static String distinguishingFactPrompt(Animal animal1, Animal animal2) {
         return LocalizationUtil.getMessageWithArguments("formatutil.factprompt", animal1.toString(), animal2.toString());
     }

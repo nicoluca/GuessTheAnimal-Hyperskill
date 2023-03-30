@@ -1,10 +1,10 @@
 package animals.util;
 
+import animals.Main;
 import animals.domain.animals.TypeOfFact;
 
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.List;
 
 public class StringUtil {
     public static String getGreetingStringBasedOnTime() {
@@ -21,8 +21,9 @@ public class StringUtil {
 
     public static String getWithoutArticle(String word) {
         // Example: "a dog" -> "dog", "the dog" -> "dog", "a nice dog" -> "nice dog"
+        // Esperanto: "hundo" -> "hundo", "la hundo" -> "hundo", "la bela hundo" -> "bela hundo"
         String[] parts = word.split(" ");
-        if (parts[0].equalsIgnoreCase("a") || parts[0].equalsIgnoreCase("an") || parts[0].equalsIgnoreCase("the"))
+        if (parts[0].matches(LocalizationUtil.getMessage("regex.article")))
             return Arrays.stream(parts).skip(1).reduce((a, b) -> a + " " + b).get();
         else
             return word;
@@ -33,21 +34,22 @@ public class StringUtil {
             throw new IllegalArgumentException("Animal name cannot be empty");
 
         // Example: "a dog" -> "a dog", "the dog" -> "a dog", "dog" -> "a dog"
+        // Esperanto: "hundo" -> "hundo", "la hundo" -> "hundo", "la bela hundo" -> "bela hundo"
         String[] parts = word.split(" ");
         String result;
 
         if (parts.length == 1)
             result =  getArticleBasedOnFirstLetter(word) + " " + word;
-        else if (parts[0].equalsIgnoreCase("a") || parts[0].equalsIgnoreCase("an"))
+        else if (parts[0].matches(LocalizationUtil.getMessage("regex.indefinitearticle")))
             result = word;
-        else if (parts[0].equalsIgnoreCase("the"))
+        else if (parts[0].matches(LocalizationUtil.getMessage("regex.definitearticle")))
             result = getArticleBasedOnFirstLetter(parts[1]) + " " +
                     Arrays.stream(parts).skip(1).reduce((a, b) -> a + " " + b).get();
         else
             result = getArticleBasedOnFirstLetter(parts[0]) + " " +
                     Arrays.stream(parts).reduce((a, b) -> a + " " + b).get();
 
-        return result.toLowerCase();
+        return result.toLowerCase().trim();
     }
 
     public static String getArticleBasedOnFirstLetter(String word) {
@@ -59,9 +61,9 @@ public class StringUtil {
                 firstLetter == 'i' ||
                 firstLetter == 'o' ||
                 firstLetter == 'u')
-            return "an";
+            return LocalizationUtil.getMessage("regex.an");
         else
-            return "a";
+            return LocalizationUtil.getMessage("regex.a");
     }
 
     public static boolean isPositiveAnswer(String answer) {
@@ -90,18 +92,21 @@ public class StringUtil {
 
     public static boolean sentenceIsFact(String sentence) {
         // Needs to start with 'It can/has/is'
-        String regex = "(?i)^It\\s(can|has|is)\\s.*$";
-        return sentence.matches(regex);
+        Main.LOGGER.info("Checking if sentence is a fact: " + sentence);
+        boolean result = sentence.matches(LocalizationUtil.getMessage("regex.isfact"));
+        if (!result)
+            Main.LOGGER.warning("Sentence is not a fact");
+        return result;
     }
 
     public static TypeOfFact getTypeOfFact(String distinguishingFact) {
         String[] parts = distinguishingFact.split(" ");
 
-        if (parts[1].equalsIgnoreCase("can"))
+        if (parts[1].matches(LocalizationUtil.getMessage("regex.can")))
             return TypeOfFact.CAN;
-        else if (parts[1].equalsIgnoreCase("has"))
+        else if (parts[1].matches(LocalizationUtil.getMessage("regex.has")))
             return TypeOfFact.HAS;
-        else if (parts[1].equalsIgnoreCase("is"))
+        else if (parts[1].matches(LocalizationUtil.getMessage("regex.is")))
             return TypeOfFact.IS;
         else
             throw new IllegalArgumentException("Not a valid sentence for providing a attribute type: " + distinguishingFact);
@@ -109,6 +114,7 @@ public class StringUtil {
 
     public static String formatFact(String fact) {
         // Example: "It can swim." -> "swim", "It has a tail." -> "a tail"
+        // Esperanto: "Li povas nadi." -> "nadi", "Li havas voston." -> "voston"
         fact = fact.toLowerCase();
         String[] parts = fact.split(" ");
         String result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
