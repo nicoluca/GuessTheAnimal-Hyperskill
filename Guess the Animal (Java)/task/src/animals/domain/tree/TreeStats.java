@@ -13,9 +13,16 @@ public class TreeStats {
     public TreeStats(BinaryTree tree) {
         List<Integer> leafDepths = new ArrayList<>();
         traverseTreeDFS(tree.getRoot(), 0, leafDepths);
-        this.averageLeafDepth = leafDepths.stream()
+        double average = leafDepths.stream()
                 .mapToInt(Integer::intValue)
                 .average().orElse(0);
+        this.averageLeafDepth = round(average, 1);
+    }
+
+    // https://stackoverflow.com/a/22186845/11292952
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 
     private void traverseTreeDFS(Node node, int depth, List<Integer> leafDepths) {

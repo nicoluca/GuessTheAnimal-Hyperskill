@@ -3,13 +3,10 @@ package animals.ui.game;
 import animals.Main;
 import animals.domain.animals.Animal;
 import animals.domain.animals.AnimalFact;
-import animals.util.GameConstants;
+import animals.util.*;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
-import animals.util.CLIUtil;
-import animals.util.FormatUtil;
-import animals.util.StringUtil;
 
 public class AnimalGame implements Runnable {
     private static AnimalGame instance;
@@ -42,10 +39,10 @@ public class AnimalGame implements Runnable {
             boolean isCorrect = CLIUtil.isYesAnswer(this.currentNode.getData().getQuestion());
 
             if (this.currentNode.isLeaf() && isCorrect) {
-                System.out.println(GameConstants.correctGuess());
+                System.out.println(LocalizationUtil.getMessage("constants.success"));
                 break;
             } else if (this.currentNode.isLeaf() && !isCorrect) {
-                System.out.println(GameConstants.getNegativeResponse());
+                System.out.println(LocalizationUtil.getMessage("constants.negative"));
                 addToTree();
                 break;
             } else if (isCorrect) {
@@ -81,7 +78,7 @@ public class AnimalGame implements Runnable {
     }
 
     private void wantToPlayAgain() {
-        String prompt = GameConstants.getPlayAgain();
+        String prompt = LocalizationUtil.getMessage("constants.playagain");
         if (CLIUtil.isYesAnswer(prompt)) {
             playGame();
         }
@@ -98,7 +95,7 @@ public class AnimalGame implements Runnable {
     }
 
     private void greetForSavedGame() {
-        System.out.println(GameConstants.getGreetingForSavedGame());
+        System.out.println(LocalizationUtil.getMessage("constants.savedgamegreeting"));
         CLIUtil.getString(); // wait for user to press enter
     }
 

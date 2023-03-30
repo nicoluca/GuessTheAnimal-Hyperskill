@@ -1,13 +1,13 @@
 package animals.ui.game;
 
 import animals.Main;
-import animals.util.GameConstants;
 import animals.domain.animals.Animal;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
 import animals.storage.FileManager;
 import animals.util.CLIUtil;
+import animals.util.LocalizationUtil;
 
 import java.io.IOException;
 
@@ -46,12 +46,12 @@ public class GameManager {
 
     private static void greetForNewGame() {
         Main.LOGGER.info("Starting new game.");
-        System.out.println(GameConstants.getGameGreeting());
+        System.out.println(LocalizationUtil.getMessage("constants.firstgreeting"));
     }
 
 
     private static void secondGreet() {
-        System.out.println(GameConstants.getSecondGameGreeting());
+        System.out.println(LocalizationUtil.getMessage("constants.secondgreeting"));
     }
 
 

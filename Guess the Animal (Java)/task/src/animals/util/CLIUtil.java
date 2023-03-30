@@ -17,7 +17,7 @@ public class CLIUtil {
         System.out.println(prompt);
         String answer = Main.scanner.nextLine();
         while (!StringUtil.isPositiveAnswer(answer) && !StringUtil.isNegativeAnswer(answer)) {
-            System.out.println(GameConstants.getClarification());
+            System.out.println(LocalizationUtil.getRandomMessage("constants.clarification"));
             answer = Main.scanner.nextLine();
         }
         return StringUtil.isPositiveAnswer(answer);
