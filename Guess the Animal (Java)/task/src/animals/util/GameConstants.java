@@ -26,20 +26,6 @@ public class GameConstants {
                 Press enter when you're ready.""";
     }
 
-
-    public static String getGoodbye() {
-        List<String> goodbyes = Arrays.asList(
-                "Bye!",
-                "See you!",
-                "Goodbye!",
-                "Have a nice day!",
-                "Have a good day!"
-        );
-
-        return goodbyes.get(random.nextInt(goodbyes.size()));
-    }
-
-
     public static String getClarification() {
         List<String> clarifications = Arrays.asList(
                 "I'm not sure I caught you: was it yes or no?",

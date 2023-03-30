@@ -11,12 +11,12 @@ public class StringUtil {
         int hour = LocalTime.now().getHour();
         String greeting;
         if (hour >= 5 && hour < 12)
-            greeting =  "Good morning!\n";
+            greeting =  LocalizationUtil.getMessage("welcome.morning") + "\n";
         else if (hour >= 12 && hour < 18)
-            greeting = "Good afternoon!\n";
+            greeting = LocalizationUtil.getMessage("welcome.afternoon") + "\n";
         else
-            greeting =  "Good evening!\n";
-        return greeting + "Welcome to the animal expert system!\n";
+            greeting =  LocalizationUtil.getMessage("welcome.evening") + "\n";
+        return greeting + LocalizationUtil.getMessage("welcome") + "\n";
     }
 
     public static String getWithoutArticle(String word) {
@@ -65,22 +65,9 @@ public class StringUtil {
     }
 
     public static boolean isPositiveAnswer(String answer) {
-        List<String> positiveAnswers = Arrays.asList(
-                "y",
-                "yes",
-                "yeah",
-                "yep",
-                "sure",
-                "right",
-                "affirmative",
-                "correct",
-                "indeed",
-                "you bet",
-                "exactly",
-                "you said it");
-
+        String[] positiveAnswers = LocalizationUtil.getMessages("stringutil.yes");
         answer = trimString(answer);
-        return positiveAnswers.contains(answer);
+        return Arrays.asList(positiveAnswers).contains(answer);
     }
 
     private static String trimString(String string) {
@@ -94,18 +81,9 @@ public class StringUtil {
     }
 
     public static boolean isNegativeAnswer(String answer) {
-        List<String> negativeAnswers = Arrays.asList(
-                "n",
-                "no",
-                "no way",
-                "nah",
-                "nope",
-                "negative",
-                "i don't think so",
-                "yeah no");
-
+        String[] negativeAnswers = LocalizationUtil.getMessages("stringutil.no");
         answer = trimString(answer);
-        return negativeAnswers.contains(answer);
+        return Arrays.asList(negativeAnswers).contains(answer);
     }
 
 

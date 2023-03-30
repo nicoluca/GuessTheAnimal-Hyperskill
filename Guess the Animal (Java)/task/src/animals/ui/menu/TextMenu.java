@@ -2,9 +2,9 @@ package animals.ui.menu;
 
 import animals.Main;
 import animals.util.CLIUtil;
+import animals.util.LocalizationUtil;
 
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 public class TextMenu {
     private static TextMenu instance;
@@ -55,7 +55,7 @@ public class TextMenu {
     private int getValidChoice() {
         int choice = CLIUtil.getInt();
         if (choice < 0 || choice > menuItems.size() - 1) {
-            System.out.println("Please select a valid menu item.");
+            System.out.println(LocalizationUtil.getMessage("textmenu.invalid"));
             return getValidChoice();
         }
         return choice;

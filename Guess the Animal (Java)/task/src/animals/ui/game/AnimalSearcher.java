@@ -5,6 +5,7 @@ import animals.domain.animals.AnimalFact;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
 import animals.util.CLIUtil;
+import animals.util.LocalizationUtil;
 import animals.util.StringUtil;
 
 import java.util.Deque;
@@ -13,7 +14,8 @@ import java.util.LinkedList;
 public class AnimalSearcher {
 
     public static void start(BinaryTree tree) {
-        String animalName = CLIUtil.getString("Enter the animal:");
+        String prompt = LocalizationUtil.getMessage("animalsearcher.getfact");
+        String animalName = CLIUtil.getString(prompt);
         animalName = StringUtil.getWithoutArticle(animalName).toLowerCase();
         search(animalName, tree);
     }
@@ -27,7 +29,7 @@ public class AnimalSearcher {
         if (found)
             printFacts(animalName, nodes);
         else
-            System.out.println("No facts about the " + animalName);
+            System.out.println(LocalizationUtil.getMessageWithArgument("animalsearcher.notfound", animalName));
     }
 
     private static boolean depthFirstSearch(String animalName, Deque<Node> nodes) {
@@ -52,7 +54,7 @@ public class AnimalSearcher {
     }
 
     private static void printFacts(String animalName, Deque<Node> nodes) {
-        System.out.println("Facts about the " + animalName + ":");
+        System.out.println(LocalizationUtil.getMessageWithArgument("animalsearcher.found", animalName));
 
         // Prints from bottom to top, as the stack is reversed
         while (nodes.size() > 1) {
@@ -60,7 +62,7 @@ public class AnimalSearcher {
             boolean isYes = currentFactNode.getYes().equals(nodes.peekLast());
             AnimalFact currentFact = (AnimalFact) currentFactNode.getData();
             String fact = isYes ? currentFact.getStringForTrue() : currentFact.getStringForFalse();
-            System.out.println("- It " + fact);
+            System.out.println("- " + LocalizationUtil.getMessageWithArgument("animalsearcher.fact", fact));
         }
     }
 }

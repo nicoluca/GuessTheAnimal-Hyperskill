@@ -1,11 +1,11 @@
 package animals;
 
-import animals.util.GameConstants;
 import animals.ui.game.GameManager;
 import animals.storage.FileManager;
 import animals.ui.game.AnimalGame;
 import animals.ui.menu.TextMenu;
 import animals.util.ArgsUtil;
+import animals.util.LocalizationUtil;
 import animals.util.StringUtil;
 
 import java.util.Scanner;
@@ -53,6 +53,6 @@ public class Main {
     }
 
     private static void printGoodbye() {
-        System.out.println("\n" + GameConstants.getGoodbye());
+        System.out.println("\n" + LocalizationUtil.getRandomMessage("goodbye"));
     }
 }

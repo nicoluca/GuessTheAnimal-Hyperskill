@@ -1,5 +1,6 @@
 package animals.domain.animals;
 
+import animals.util.LocalizationUtil;
 import animals.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -44,27 +45,27 @@ public class AnimalFact implements QuestionInterface {
     @JsonIgnore
     public String getStringForTrue() {
         return switch (this.typeOfFact) {
-            case CAN -> "can " + this.fact + ".";
-            case HAS -> "has " + this.fact + ".";
-            case IS -> "is " + this.fact + ".";
+            case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.can", this.fact);
+            case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.has", this.fact);
+            case IS -> LocalizationUtil.getMessageWithArgument("animalfact.is", this.fact);
         };
     }
 
     @JsonIgnore
     public String getStringForFalse() {
         return switch (this.typeOfFact) {
-            case CAN -> "can't " + this.fact + ".";
-            case HAS -> "doesn't have " + this.fact + ".";
-            case IS -> "isn't " + this.fact + ".";
+            case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.cant", this.fact);
+            case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.hasnt", this.fact);
+            case IS -> LocalizationUtil.getMessageWithArgument("animalfact.isnt", this.fact);
         };
     }
 
     @JsonIgnore
     public String getQuestion() {
         return switch (this.typeOfFact) {
-            case CAN -> "Can it " + this.fact + "?";
-            case HAS -> "Does it have " + this.fact + "?";
-            case IS -> "Is it " + this.fact + "?";
+            case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.question.can", this.fact);
+            case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.question.has", this.fact);
+            case IS -> LocalizationUtil.getMessageWithArgument("animalfact.question.is", this.fact);
         };
     }
 }

@@ -28,7 +28,7 @@ public class CLIUtil {
             return Integer.parseInt(Main.scanner.nextLine());
         } catch (NumberFormatException e) {
             Main.LOGGER.warning("Invalid input");
-            System.out.println("Please enter a valid number.");
+            System.out.println(LocalizationUtil.getMessage("cliutil.invalidnumber"));
             return getInt();
         }
     }

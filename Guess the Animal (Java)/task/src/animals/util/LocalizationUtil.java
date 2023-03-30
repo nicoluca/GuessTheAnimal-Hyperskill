@@ -1,24 +1,48 @@
 package animals.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import animals.Main;
+
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class LocalizationUtil {
-    public static String RESOURCES_FOLDER = ""; // ""Guess the Animal (Java)/task/src/resources/";
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("messages");
+    private static final String DELIMITER = ";";
 
-    public static PropertyResourceBundle getResourceBundle(String name) {
+    public static String getMessage(String key) {
         try {
-            FileInputStream fis = new FileInputStream(RESOURCES_FOLDER + name);
-            return new PropertyResourceBundle(fis);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            return bundle.getString(key);
+        } catch (MissingResourceException e) {
+            return getFallbackTextFromMessages(key);
         }
     }
 
-    public static ResourceBundle getResource(String name) {
-        return ResourceBundle.getBundle(RESOURCES_FOLDER + name);
+    private static String getFallbackTextFromMessages(String key) {
+        try {
+            return ResourceBundle.getBundle("messages", Locale.ENGLISH).getString(key);
+        } catch (MissingResourceException e) {
+            Main.LOGGER.warning("Missing resource: " + key);
+            return "Missing resource: " + key;
+        }
+    }
+
+    public static String[] getMessages(String key) {
+        return getMessage(key).split(DELIMITER);
+    }
+
+    public static String getRandomMessage(String key) {
+        String[] messages = getMessage(key).split(DELIMITER);
+        return messages[(int) (Math.random() * messages.length)];
+    }
+
+    public static String getMessageWithArgument(String key, String value) {
+        return getMessage(key).replace("%s", value);
+    }
+
+    public static String getMessageWithArguments(String key, String... values) {
+        String message = getMessage(key);
+        for (String value : values) message = message.replace("%s", value);
+        return message;
     }
 }

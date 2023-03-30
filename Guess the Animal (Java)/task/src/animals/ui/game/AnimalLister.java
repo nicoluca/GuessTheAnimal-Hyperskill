@@ -4,6 +4,7 @@ import animals.domain.animals.Animal;
 import animals.domain.animals.QuestionInterface;
 import animals.domain.tree.BinaryTree;
 import animals.domain.tree.Node;
+import animals.util.LocalizationUtil;
 import animals.util.StringUtil;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class AnimalLister {
     }
 
     private static void printAnimals(List<String> animalNames) {
-        System.out.println("Here are the animals I know:");
+        System.out.println(LocalizationUtil.getMessage("animallister.title"));
         animalNames.forEach(s -> System.out.println("- " + s));
     }
 

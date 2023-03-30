@@ -7,17 +7,13 @@ import animals.domain.tree.Node;
 
 public class FormatUtil {
     public static String distinguishingFactPrompt(Animal animal1, Animal animal2) {
-        return "Specify a fact that distinguishes " + animal1.toString() + " from " + animal2.toString() + ".\n" +
-                "The sentence should satisfy one of the following templates:\n" +
-                "- It can ...\n" +
-                "- It has ...\n" +
-                "- It is a/an ...\n";
+        return LocalizationUtil.getMessageWithArguments("formatutil.factprompt", animal1.toString(), animal2.toString());
     }
 
     public static void printNode(Node<QuestionInterface> node) {
         if (!node.isLeaf()) {
             printAnimalFacts(node);
-            System.out.println("I can distinguish these animals by asking the question:");
+            System.out.println(LocalizationUtil.getMessage("formatutil.distinguish"));
             System.out.println("- " + node.getData().getQuestion());
         }
 
@@ -29,7 +25,7 @@ public class FormatUtil {
 
     private static void printAnimalFacts(Node node) {
         if (node.getNo().isLeaf() || node.getYes().isLeaf()) {
-            System.out.println("I have learned the following facts about animals:");
+            System.out.println(LocalizationUtil.getMessage("formatutil.learnt"));
             if (node.getNo().isLeaf())
                 printAnimalFact(node, node.getNo());
             if (node.getYes().isLeaf())
@@ -38,7 +34,7 @@ public class FormatUtil {
     }
 
     private static void printAnimalFact(Node node, Node child) {
-        String out = "The " + StringUtil.getWithoutArticle(((Animal) child.getData()).toString()) + " ";
+        String out = LocalizationUtil.getMessage("formatutil.definitearticle") + " " + StringUtil.getWithoutArticle(((Animal) child.getData()).toString()) + " ";
         if (child.equals(node.getNo()))
             out += ((AnimalFact) node.getData()).getStringForFalse();
         else if (child.equals(node.getYes()))

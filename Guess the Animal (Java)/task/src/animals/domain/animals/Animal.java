@@ -1,5 +1,6 @@
 package animals.domain.animals;
 
+import animals.util.LocalizationUtil;
 import animals.util.StringUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,7 +24,7 @@ public class Animal implements QuestionInterface {
 
     @JsonIgnore
     public String getQuestion() {
-        return "Is it " + name + "?";
+        return LocalizationUtil.getMessageWithArgument("animal.question", name);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class Animal implements QuestionInterface {
 
     @JsonIgnore
     public String getFactQuestion() {
-        return "Is the statement correct for " + name + "?";
+        return LocalizationUtil.getMessageWithArgument("animal.fact.question", name);
     }
 
 }
