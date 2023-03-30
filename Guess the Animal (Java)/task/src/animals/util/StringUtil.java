@@ -109,7 +109,7 @@ public class StringUtil {
         else if (parts[1].matches(LocalizationUtil.getMessage("regex.is")))
             return TypeOfFact.IS;
         else
-            throw new IllegalArgumentException("Not a valid sentence for providing a attribute type: " + distinguishingFact);
+            return TypeOfFact.GENERIC;
     }
 
     public static String formatFact(String fact) {
@@ -117,7 +117,12 @@ public class StringUtil {
         // Esperanto: "Li povas nadi." -> "nadi", "Li havas voston." -> "voston"
         fact = fact.toLowerCase();
         String[] parts = fact.split(" ");
-        String result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
+        String result;
+        if (getTypeOfFact(fact) == TypeOfFact.GENERIC)
+            result = Arrays.stream(parts).skip(1).reduce((a, b) -> a + " " + b).get();
+        else
+            result = Arrays.stream(parts).skip(2).reduce((a, b) -> a + " " + b).get();
+
         // Remove period or question mark at the end
         return result.replaceAll("[.|?]$", "");
     }

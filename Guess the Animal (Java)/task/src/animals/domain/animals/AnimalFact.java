@@ -48,6 +48,7 @@ public class AnimalFact implements QuestionInterface {
             case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.can", this.fact);
             case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.has", this.fact);
             case IS -> LocalizationUtil.getMessageWithArgument("animalfact.is", this.fact);
+            case GENERIC -> LocalizationUtil.getMessageWithArgument("animalfact.generic.positive", this.fact);
         };
     }
 
@@ -57,6 +58,7 @@ public class AnimalFact implements QuestionInterface {
             case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.cant", this.fact);
             case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.hasnt", this.fact);
             case IS -> LocalizationUtil.getMessageWithArgument("animalfact.isnt", this.fact);
+            case GENERIC -> LocalizationUtil.getMessageWithArgument("animalfact.generic.negative", this.fact);
         };
     }
 
@@ -66,6 +68,7 @@ public class AnimalFact implements QuestionInterface {
             case CAN -> LocalizationUtil.getMessageWithArgument("animalfact.question.can", this.fact);
             case HAS -> LocalizationUtil.getMessageWithArgument("animalfact.question.has", this.fact);
             case IS -> LocalizationUtil.getMessageWithArgument("animalfact.question.is", this.fact);
+            case GENERIC -> LocalizationUtil.getMessageWithArgument("animalfact.question.generic", this.fact);
         };
     }
 }
